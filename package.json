@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "watch": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --verbose",
     "lint": "eslint ."
   },
   "repository": {
@@ -23,6 +23,9 @@
     "url": "https://github.com/davimuri/bloglist-backend/issues"
   },
   "homepage": "https://github.com/davimuri/bloglist-backend#readme",
+  "jest": {
+    "testEnvironment": "node"
+  },
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
@@ -33,6 +36,7 @@
   },
   "devDependencies": {
     "eslint": "^6.6.0",
+    "jest": "^24.9.0",
     "nodemon": "^1.19.4"
   }
 }
