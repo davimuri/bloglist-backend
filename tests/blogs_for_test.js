@@ -71,8 +71,24 @@ const bigListOfBlogs = [
     }
 ]
 
+const initialBlogs = bigListOfBlogs.map(blog => {
+    const newBlog =  { ...blog }
+    delete newBlog._id
+    delete newBlog.__v
+    return newBlog
+})
+
+const validBlogToCreate = {
+    title: 'Agile Developer',
+    author: 'Venkat Subramaniam',
+    url: 'http://blog.agiledeveloper.com/',
+    likes: 1
+}
+
 module.exports = {
     listWithOneBlog,
     listWithOneBlogAndZeroLikes,
-    bigListOfBlogs
+    bigListOfBlogs,
+    initialBlogs,
+    validBlogToCreate
 }
