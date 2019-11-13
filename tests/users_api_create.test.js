@@ -2,7 +2,7 @@ const dbHandler = require('./db_handler')
 const supertest = require('supertest')
 const app = require('../app')
 const User = require('../models/user')
-const usersHelper = require('./users_herlper')
+const usersHelper = require('./users_helper')
 const usersTestData = require('./users_test_data')
 
 const api = supertest(app)
@@ -21,7 +21,7 @@ afterEach(async () => await dbHandler.clean())
 afterAll(async () => await dbHandler.close())
 
 test('a valid user can be added ', async () => {
-    const usersAtStart = await usersHelper.usersInDb()
+    const usersAtStart = await usersHelper.usersInDbAsJSON()
 
     const user = {
         name: 'David',
@@ -41,7 +41,7 @@ test('a valid user can be added ', async () => {
     delete actualUser.id
     expect(actualUser).toEqual(user)
 
-    const usersAtEnd = await usersHelper.usersInDb()
+    const usersAtEnd = await usersHelper.usersInDbAsJSON()
     expect(usersAtEnd.length).toBe(usersAtStart.length + 1)
     const usernames = usersAtEnd.map(u => u.username)
     expect(usernames).toContain(user.username)
@@ -49,7 +49,7 @@ test('a valid user can be added ', async () => {
 
 
 test('creation fails with proper statuscode and message if username already taken', async () => {
-    const usersAtStart = await usersHelper.usersInDb()
+    const usersAtStart = await usersHelper.usersInDbAsJSON()
 
     const newUser = {
         username: 'root',
@@ -65,7 +65,7 @@ test('creation fails with proper statuscode and message if username already take
 
     expect(result.body.error).toContain('`username` to be unique')
 
-    const usersAtEnd = await usersHelper.usersInDb()
+    const usersAtEnd = await usersHelper.usersInDbAsJSON()
     expect(usersAtEnd.length).toBe(usersAtStart.length)
 })
 

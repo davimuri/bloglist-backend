@@ -10,6 +10,7 @@ const connect = async () => {
     const uri = await mongod.getConnectionString()
 
     const mongooseOpts = {
+        useFindAndModify: false,
         useUnifiedTopology: true,
         useNewUrlParser: true,
         autoReconnect: true,
