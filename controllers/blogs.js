@@ -51,6 +51,17 @@ blogsRouter.put('/:id', async (request, response, next) => {
     }
 })
 
+blogsRouter.patch('/:id/likes', async (request, response, next) => {
+    try {
+        const blog = await Blog.findById(request.params.id)
+        blog.likes = blog.likes + 1
+        blog.save()
+        response.json(blog.toJSON())
+    } catch(exception) {
+        next(exception)
+    }
+})
+
 blogsRouter.delete('/:id', async (request, response, next) => {
     const user = await findUserByToken(request.token)
 
