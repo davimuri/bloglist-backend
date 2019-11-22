@@ -51,7 +51,7 @@ test('a valid blog can be added', async () => {
 
     const createdBlog = result.body
     expect(createdBlog.id).not.toBeNull()
-    expect(createdBlog.user.toString()).toBe(userBlogCreator._id.toString())
+    expect(createdBlog.user.id.toString()).toBe(userBlogCreator._id.toString())
     const actualBlog = { ...createdBlog }
     delete actualBlog.id
     delete actualBlog.user

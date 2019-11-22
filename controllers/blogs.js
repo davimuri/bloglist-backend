@@ -27,7 +27,17 @@ blogsRouter.post('/', async (request, response, next) => {
         const savedBlog = await blog.save()
         user.blogs = user.blogs.concat(savedBlog._id)
         await user.save()
-        response.status(201).json(savedBlog)
+
+        const blogToReturn = {
+            ...savedBlog.toJSON(),
+            user: {
+                id: user._id,
+                username: user.username,
+                name: user.name
+            }
+        }
+
+        response.status(201).json(blogToReturn)
     } catch (exception) {
         next(exception)
     }
@@ -54,6 +64,7 @@ blogsRouter.put('/:id', async (request, response, next) => {
 blogsRouter.patch('/:id/likes', async (request, response, next) => {
     try {
         const blog = await Blog.findById(request.params.id)
+            .populate('user', { name: 1, username: 1 })
         blog.likes = blog.likes + 1
         blog.save()
         response.json(blog.toJSON())
