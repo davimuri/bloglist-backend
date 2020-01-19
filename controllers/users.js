@@ -8,6 +8,16 @@ usersRouter.get('/', async (request, response) => {
     response.json(users)
 })
 
+usersRouter.get('/:id', async (request, response, next) => {
+    try {
+        const user = await User.findById(request.params.id)
+            .populate('blogs', { title: 1, likes: 1 })
+        response.json(user)
+    } catch (exception) {
+        next(exception)
+    }
+})
+
 usersRouter.post('/', async (request, response, next) => {
     if (request.body.password === undefined || request.body.password.length < 3) {
         return response.status(400).json({ error: 'password is required and must have at least 3 characters' })
